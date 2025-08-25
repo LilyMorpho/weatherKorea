@@ -47,7 +47,7 @@ function getOverlay(icon, name, temp, clsNm) {
       <div class="icon-wp">
         <img
           src="${getIcon(icon)}"
-          alt="지도날씨아이콘"
+          alt="날씨아이콘"
           class="map-icon"
         />
       </div>
@@ -111,7 +111,7 @@ async function initMap() {
 
   const mapEl = document.getElementById("map");
   const mapOption = {
-    center: new kakao.maps.LatLng(35.871435, 128.771445),
+    center: new kakao.maps.LatLng(35.871435, 128.601445),
     level: 13,
     draggable: false,
     scrollwheel: false,
@@ -150,6 +150,8 @@ async function init() {
   } */
 
 console.log(weathers);
+
+initMap();
 
 // function init2() {
 //   getCoordinate().then(async ({ lat, lon }) => {
