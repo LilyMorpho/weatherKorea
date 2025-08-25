@@ -1,6 +1,6 @@
 const kakaoJsKey = "e6ef18b4a59a2039b0a3042f3aab30b1";
 
-const apiKey = "a80ed543525602d445142f9ac015a669";
+const apiKey = "e6ef18b4a59a2039b0a3042f3aab30b1";
 const reqUrl = "https://api.openweathermap.org/data/2.5/weather";
 
 const weathers = {
@@ -47,7 +47,7 @@ function getOverlay(icon, name, temp, clsNm) {
       <div class="icon-wp">
         <img
           src="${getIcon(icon)}"
-          alt="날씨아이콘"
+          alt="지도날씨아이콘"
           class="map-icon"
         />
       </div>
@@ -111,7 +111,7 @@ async function initMap() {
 
   const mapEl = document.getElementById("map");
   const mapOption = {
-    center: new kakao.maps.LatLng(35.871435, 128.601445),
+    center: new kakao.maps.LatLng(35.871435, 128.771445),
     level: 13,
     draggable: false,
     scrollwheel: false,
@@ -150,8 +150,6 @@ async function init() {
   } */
 
 console.log(weathers);
-
-initMap();
 
 // function init2() {
 //   getCoordinate().then(async ({ lat, lon }) => {
