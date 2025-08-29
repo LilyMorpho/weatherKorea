@@ -1,4 +1,4 @@
-const kakaoJsKey = "0ad3cefeacfe13d954142ab113ed1e06"
+const kakaoJsKey = "5879852133b3c13ea0718260498b319f"
 
 const apiKey = "a80ed543525602d445142f9ac015a669"
 const reqUrl = "https://api.openweathermap.org/data/2.5/weather"
