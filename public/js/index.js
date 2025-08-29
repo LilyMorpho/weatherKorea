@@ -1,7 +1,7 @@
-const kakaoJsKey = "0ad3cefeacfe13d954142ab113ed1e06";
+const kakaoJsKey = "0ad3cefeacfe13d954142ab113ed1e06"
 
-const apiKey = "a80ed543525602d445142f9ac015a669";
-const reqUrl = "https://api.openweathermap.org/data/2.5/weather";
+const apiKey = "a80ed543525602d445142f9ac015a669"
+const reqUrl = "https://api.openweathermap.org/data/2.5/weather"
 
 const weathers = {
   myData: {},
@@ -34,11 +34,11 @@ const weathers = {
       clsNm: "sokcho",
     },
   ],
-};
+}
 function getIcon(code, lg = false) {
   return code
     ? `https://openweathermap.org/img/wn/${code}${lg ? "@2x" : ""}.png`
-    : "-";
+    : "-"
 }
 function getOverlay(icon, name, temp, clsNm) {
   return `
@@ -47,7 +47,7 @@ function getOverlay(icon, name, temp, clsNm) {
       <div class="icon-wp">
         <img
           src="${getIcon(icon)}"
-          alt="날씨아이콘"
+          alt="지도날씨아이콘"
           class="map-icon"
         />
       </div>
@@ -56,89 +56,89 @@ function getOverlay(icon, name, temp, clsNm) {
         <span class="city-temp">${temp}</span>℃
       </div>
     </div>
-  </div>`;
+  </div>`
 }
 function getCoords() {
   return new Promise((resolve) => {
-    let defaultLat = 37.566535;
-    let defaultLon = 126.9779692;
+    let defaultLat = 37.566535
+    let defaultLon = 126.9779692
     navigator.geolocation.getCurrentPosition(
       (res) => {
         resolve({
           lat: res?.coords?.latitude ?? defaultLat,
           lon: res?.coords?.longitude ?? defaultLon,
-        });
+        })
       },
       (err) => {
-        console.log(err);
-        resolve({ lat: defaultLat, lon: defaultLon });
+        console.log(err)
+        resolve({ lat: defaultLat, lon: defaultLon })
       }
-    );
-  });
+    )
+  })
 }
 async function getWeather(lat, lon) {
   // const req = `${reqUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`;
   // const { data } = await axios.get(req);
-  const params = { lat, lon, appid: apiKey, units: "metric" };
-  const { data } = await axios.get(reqUrl, { params });
-  return data;
+  const params = { lat, lon, appid: apiKey, units: "metric" }
+  const { data } = await axios.get(reqUrl, { params })
+  return data
 }
 
 function renderInfo() {
   const { temp, feels_like, temp_max, temp_min, humidity } =
-    weathers.myData?.main || {};
-  const { description, icon } = weathers.myData?.weather?.[0] || {};
-  const info = document.querySelector(".info-wrapper");
-  info.querySelector(".main-temp").innerText = temp || "-";
-  info.querySelector(".feels-temp").innerText = feels_like || "-";
-  info.querySelector(".max-temp").innerText = temp_max || "-";
-  info.querySelector(".min-temp").innerText = temp_min || "-";
-  info.querySelector(".humedity").innerText = humidity || "-";
-  info.querySelector(".description").innerText = description || "-";
-  info.querySelector(".weather-icon").src = getIcon(icon, true);
+    weathers.myData?.main || {}
+  const { description, icon } = weathers.myData?.weather?.[0] || {}
+  const info = document.querySelector(".info-wrapper")
+  info.querySelector(".main-temp").innerText = temp || "-"
+  info.querySelector(".feels-temp").innerText = feels_like || "-"
+  info.querySelector(".max-temp").innerText = temp_max || "-"
+  info.querySelector(".min-temp").innerText = temp_min || "-"
+  info.querySelector(".humedity").innerText = humidity || "-"
+  info.querySelector(".description").innerText = description || "-"
+  info.querySelector(".weather-icon").src = getIcon(icon, true)
 }
 
 async function initInfo() {
-  const { lat, lon } = await getCoords(); // 나의 위치
-  weathers.myData = await getWeather(lat, lon);
-  renderInfo();
+  const { lat, lon } = await getCoords() // 나의 위치
+  weathers.myData = await getWeather(lat, lon)
+  renderInfo()
 }
 
 async function initMap() {
-  const pms = weathers.allData.map((city) => getWeather(city.lat, city.lon));
-  const values = await Promise.all(pms);
-  weathers.allData.forEach((city, idx) => (city.weather = values[idx]));
+  const pms = weathers.allData.map((city) => getWeather(city.lat, city.lon))
+  const values = await Promise.all(pms)
+  weathers.allData.forEach((city, idx) => (city.weather = values[idx]))
 
-  const mapEl = document.getElementById("map");
+  const mapEl = document.getElementById("map")
   const mapOption = {
-    center: new kakao.maps.LatLng(35.871435, 128.601445),
+    center: new kakao.maps.LatLng(35.871435, 128.771445),
     level: 13,
     draggable: false,
     scrollwheel: false,
     disableDoubleClick: true,
     disableDoubleClickZoom: true,
-  };
-  const map = new kakao.maps.Map(mapEl, mapOption);
+  }
+  const map = new kakao.maps.Map(mapEl, mapOption)
 
   weathers.allData.forEach((city) => {
-    const temp = city.weather?.main?.temp;
-    const icon = city.weather?.weather?.[0]?.icon;
-    const position = new kakao.maps.LatLng(city.lat, city.lon);
-    const marker = new kakao.maps.Marker({ position });
+    const temp = city.weather?.main?.temp
+    const icon = city.weather?.weather?.[0]?.icon
+    const position = new kakao.maps.LatLng(city.lat, city.lon)
+    const marker = new kakao.maps.Marker({ position })
     var overlay = new kakao.maps.CustomOverlay({
       position,
       content: getOverlay(icon, city.name, temp, city.clsNm),
       xAnchor: 0,
       yAnchor: 0,
-    });
-    marker.setMap(map);
-    overlay.setMap(map);
-  });
+    })
+    marker.setMap(map)
+    overlay.setMap(map)
+  })
 }
 
 async function init() {
-  initInfo();
-  initMap();
+  initInfo()
+  initMap()
 }
 
 /*   weatherKor.korLocations.forEach(async (item) => {
@@ -149,9 +149,9 @@ async function init() {
     item.weather = await getWeather(item.lat, item.lon);
   } */
 
-console.log(weathers);
+// console.log(weathers);
 
-initMap();
+// initMap();
 
 // function init2() {
 //   getCoordinate().then(async ({ lat, lon }) => {
@@ -163,4 +163,4 @@ initMap();
 
 // window.addEventListener("load", init);
 
-window.addEventListener("load", init);
+window.addEventListener("load", init)
